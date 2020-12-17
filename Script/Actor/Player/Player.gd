@@ -22,11 +22,13 @@ const FRICTION = 0.35
 const AIR_RESISTENCE = 0.09
 const GRAVITY = 550
 const JUMP_FORCE = 198
+const MAX_SUPER_METER_VALUE = 100
 
 var max_speed = MAX_SPEED
 
 var state = 0
 var my_fiend = null
+var super_meter_value = MAX_SUPER_METER_VALUE
 var motion = Vector2()
 var stored_motion = Vector2()
 
@@ -168,6 +170,7 @@ func _physics_process(delta):
 func _process(delta):
 	# Debug-only functions
 	debug_controls()
+	$UI/HUD/SuperMeter.value = super_meter_value
 	
 	# Set the process by which the camera will shake 
 	camera_shake_process(0.8)
@@ -189,6 +192,9 @@ func _process(delta):
 			!Input.is_action_pressed("ui_left")
 		):
 			use_equipped_attack("neutral")
+	
+	if Input.is_action_just_pressed("ui_special") and (!in_lag):
+			use_equipped_attack("special")
 	
 	# Initiate fiend attack
 	if Input.is_action_just_pressed("ui_fiend_attack") and (!my_fiend.in_lag):
@@ -251,6 +257,23 @@ func use_equipped_attack(var direction = ""):
 			# cancelable is when the player can do something other than regular movement or the same move 
 			# to escape the lag of a move and destroy the move early
 			
+		"special":
+			$Sprite.play("AtkBasicPunch")
+			
+			cancelable = false
+			basic_atk_inst = G.attack_basic_punch.instance()
+			add_child(basic_atk_inst)
+			
+			# Levitation used in motion.y += section in _physics_process
+			if basic_atk_inst.properties["Levitation"] > 1:
+				levitation = basic_atk_inst.properties["Levitation"]
+			
+			# in_lag is when the player cannot do anything, always longer than cancelable
+			in_lag = true
+			lag_time = basic_atk_inst.lag
+			
+			update_meter(super_meter_value - 25)
+			
 	# Flip whole node accordingly
 	if $Sprite.flip_h:
 		basic_atk_inst.scale = Vector2(-1, 1)
@@ -278,6 +301,12 @@ func initiate_dash(x_in):
 	# Determine speed/direction
 	motion.x = x_in * MAX_DASH_SPEED # No * delta, happens once
 	ghost_color = ghost_colors["blue"]
+
+
+func update_meter(to):
+	var tw_super = Tweening.tween_to(self, "super_meter_value", to, 0.2)
+	tw_super.easing = Tween.EASE_IN_OUT
+	tw_super.trans = Tween.TRANS_ELASTIC
 
 
 # Timer timeouts
