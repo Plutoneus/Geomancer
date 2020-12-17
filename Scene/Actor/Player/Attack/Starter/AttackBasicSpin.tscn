@@ -1,0 +1,157 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Script/Actor/Player/Attack/Attack.gd" type="Script" id=1]
+[ext_resource path="res://Scene/Actor/Attack/AttackSprite.tscn" type="PackedScene" id=2]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 20.0
+
+[sub_resource type="Animation" id=3]
+resource_name = "AttackBasicSpin"
+length = 0.433333
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/path = NodePath("HitBox0:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.05, 0.1, 0.133333, 0.183333, 0.216667, 0.266667, 0.3, 0.35 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ true, false, true, false, true, false, true, false, true ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:force")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.183333, 0.266667 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( 0, -60 ), Vector2( 0, 60 ), Vector2( 0, -60 ), Vector2( 0, 60 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:properties")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.1, 0.183333, 0.266667 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ {
+"Curse Seal": 0,
+"Facing": true,
+"Force": 1,
+"Imbued Beast": 0,
+"Levitation": 3,
+"Strength": 15
+}, {
+"Curse Seal": 0,
+"Facing": true,
+"Force": 1,
+"Imbued Beast": 0,
+"Levitation": 3,
+"Strength": 20
+}, {
+"Curse Seal": 0,
+"Facing": true,
+"Force": 1,
+"Imbued Beast": 0,
+"Levitation": 3,
+"Strength": 25
+}, {
+"Curse Seal": 0,
+"Facing": true,
+"Force": 1,
+"Imbued Beast": 0,
+"Levitation": 3,
+"Strength": 30
+} ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "AttackBasicUtilt"
+length = 0.4
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/path = NodePath("HitBox0:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.05, 0.0833333, 0.116667, 0.15, 0.183333, 0.233333, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ true, false, false, true, true, true, true, true ]
+}
+
+[node name="AttackBasicSpin" type="Area2D" groups=[
+"Attack",
+]]
+z_index = 2
+script = ExtResource( 1 )
+user = {
+"Enemy": false,
+"Fiend": false,
+"Player": true
+}
+control = {
+"Down": false,
+"Forward": false,
+"Neutral": true,
+"Null": false,
+"Special": false,
+"Super": false,
+"Up": false
+}
+type = {
+"Ender": false,
+"Filler": true,
+"Special": false,
+"Starter": false,
+"Ultra": false
+}
+hitstop = 2.0
+hitstun = 45.0
+lag = 28.0
+cancel = 22.0
+cancel_type = {
+"Down": true,
+"Forward": true,
+"Item": true,
+"Neutral": false,
+"Special": true,
+"Super": true,
+"Up": true
+}
+properties = {
+"Curse Seal": 0,
+"Facing": true,
+"Force": 1,
+"Imbued Beast": 0,
+"Levitation": 3,
+"Strength": 15
+}
+force = Vector2( 0, -60 )
+
+[node name="HitBox0" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+disabled = true
+
+[node name="Anim" type="AnimationPlayer" parent="."]
+autoplay = "AttackBasicSpin"
+anims/AttackBasicSpin = SubResource( 3 )
+anims/AttackBasicUtilt = SubResource( 2 )
+
+[node name="Sprite" parent="." instance=ExtResource( 2 )]
+visible = false
+position = Vector2( 0, -16 )
+animation = "PBasicUtilt"
+[connection signal="animation_finished" from="Anim" to="." method="_on_Anim_animation_finished"]

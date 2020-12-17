@@ -1,0 +1,56 @@
+[gd_scene load_steps=32 format=2]
+
+[ext_resource path="res://Sprite/Attack/AttackSpecialInwardSpike/AttackSpecialInwardSpike6.png" type="Texture" id=1]
+[ext_resource path="res://Sprite/Attack/AttackSpecialInwardSpike/AttackSpecialInwardSpike8.png" type="Texture" id=2]
+[ext_resource path="res://Sprite/Attack/AttackSpecialInwardSpike/AttackSpecialInwardSpike9.png" type="Texture" id=3]
+[ext_resource path="res://Sprite/Attack/AttackSpecialInwardSpike/AttackSpecialInwardSpike7.png" type="Texture" id=4]
+[ext_resource path="res://Sprite/Attack/AttackBasicUtiltSmall/AttackBasicUtiltSmall0.png" type="Texture" id=5]
+[ext_resource path="res://Sprite/Attack/AttackBasicUtiltSmall/AttackBasicUtiltSmall1.png" type="Texture" id=6]
+[ext_resource path="res://Sprite/Attack/AttackBasicUtiltSmall/AttackBasicUtiltSmall2.png" type="Texture" id=7]
+[ext_resource path="res://Sprite/Attack/AttackBasicUtiltSmall/AttackBasicUtiltSmall8.png" type="Texture" id=8]
+[ext_resource path="res://Sprite/Attack/AttackBasicUtiltSmall/AttackBasicUtiltSmall7.png" type="Texture" id=9]
+[ext_resource path="res://Sprite/Attack/AttackBasicUtiltSmall/AttackBasicUtiltSmall6.png" type="Texture" id=10]
+[ext_resource path="res://Sprite/Attack/AttackBasicUtiltSmall/AttackBasicUtiltSmall5.png" type="Texture" id=11]
+[ext_resource path="res://Sprite/Attack/AttackBasicUtiltSmall/AttackBasicUtiltSmall4.png" type="Texture" id=12]
+[ext_resource path="res://Sprite/Attack/AttackBasicUtiltSmall/AttackBasicUtiltSmall3.png" type="Texture" id=13]
+[ext_resource path="res://Sprite/Attack/AttackBasicUtiltSmall/AttackBasicUtiltSmall9.png" type="Texture" id=14]
+[ext_resource path="res://Sprite/Attack/AttackBasicUtiltSmall/AttackBasicUtiltSmall10.png" type="Texture" id=15]
+[ext_resource path="res://Sprite/Attack/AttackBasicUtiltSmall/AttackBasicUtiltSmall11.png" type="Texture" id=16]
+[ext_resource path="res://Sprite/Attack/AttackBasicMultiJab/AttackBasicMultiJab0.png" type="Texture" id=17]
+[ext_resource path="res://Sprite/Attack/AttackBasicMultiJab/AttackBasicMultiJab1.png" type="Texture" id=18]
+[ext_resource path="res://Sprite/Attack/AttackBasicMultiJab/AttackBasicMultiJab2.png" type="Texture" id=19]
+[ext_resource path="res://Sprite/Attack/AttackBasicMultiJab/AttackBasicMultiJab3.png" type="Texture" id=20]
+[ext_resource path="res://Sprite/Attack/AttackBasicMultiJab/AttackBasicMultiJab4.png" type="Texture" id=21]
+[ext_resource path="res://Sprite/Attack/AttackBasicMultiJab/AttackBasicMultiJab5.png" type="Texture" id=22]
+[ext_resource path="res://Sprite/Attack/AttackSpecialInwardSpike/AttackSpecialInwardSpike1.png" type="Texture" id=23]
+[ext_resource path="res://Sprite/Attack/AttackSpecialInwardSpike/AttackSpecialInwardSpike0.png" type="Texture" id=24]
+[ext_resource path="res://Sprite/Attack/AttackSpecialInwardSpike/AttackSpecialInwardSpike2.png" type="Texture" id=25]
+[ext_resource path="res://Sprite/Attack/AttackSpecialInwardSpike/AttackSpecialInwardSpike3.png" type="Texture" id=26]
+[ext_resource path="res://Sprite/Attack/AttackSpecialInwardSpike/AttackSpecialInwardSpike4.png" type="Texture" id=27]
+[ext_resource path="res://Sprite/Attack/AttackSpecialInwardSpike/AttackSpecialInwardSpike5.png" type="Texture" id=28]
+[ext_resource path="res://Sprite/Attack/AttackSpecialInwardSpike/AttackSpecialInwardSpike10.png" type="Texture" id=29]
+[ext_resource path="res://Sprite/Attack/AttackSpecialInwardSpike/AttackSpecialInwardSpike11.png" type="Texture" id=30]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 13 ), ExtResource( 12 ), ExtResource( 11 ), ExtResource( 10 ), ExtResource( 9 ), ExtResource( 8 ), ExtResource( 14 ), ExtResource( 15 ), ExtResource( 16 ) ],
+"loop": true,
+"name": "PBasicUtilt",
+"speed": 30.0
+}, {
+"frames": [ ExtResource( 24 ), ExtResource( 23 ), ExtResource( 25 ), ExtResource( 26 ), ExtResource( 27 ), ExtResource( 28 ), ExtResource( 1 ), ExtResource( 4 ), ExtResource( 2 ), ExtResource( 3 ), ExtResource( 29 ), ExtResource( 30 ) ],
+"loop": true,
+"name": "PSpecialInwardSpike",
+"speed": 30.0
+}, {
+"frames": [ ExtResource( 17 ), ExtResource( 18 ), ExtResource( 19 ), ExtResource( 20 ), ExtResource( 21 ), ExtResource( 22 ) ],
+"loop": true,
+"name": "PBasicMultiJab",
+"speed": 30.0
+} ]
+
+[node name="Sprite" type="AnimatedSprite"]
+frames = SubResource( 1 )
+__meta__ = {
+"_edit_lock_": true
+}

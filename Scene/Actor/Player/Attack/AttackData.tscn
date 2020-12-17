@@ -1,0 +1,70 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Script/Actor/Player/Attack/AttackData.gd" type="Script" id=1]
+[ext_resource path="res://Scene/Actor/Player/Attack/Starter/AttackBasicUtilt.tscn" type="PackedScene" id=2]
+
+[node name="AttackData" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="Player" type="Node2D" parent="."]
+
+[node name="Starter" type="Node2D" parent="Player"]
+
+[node name="AttackBasicUtilt" parent="Player/Starter" instance=ExtResource( 2 )]
+user = {
+"Enemy": false,
+"Fiend": false,
+"Player": true
+}
+control = {
+"Down": false,
+"Forward": false,
+"Moon Down": false,
+"Moon Forward": false,
+"Moon Up": false,
+"Null": false,
+"Up": true
+}
+type = {
+"Ender": false,
+"Filler": false,
+"Special": false,
+"Starter": true,
+"Ultra": false
+}
+cancel_type = {
+"Down": true,
+"Forward": true,
+"Item": true,
+"Moon Down": true,
+"Moon Forward": true,
+"Moon Up": true,
+"Up": false
+}
+properties = {
+"Curse Seal": 0,
+"Force": 1,
+"Imbued Beast": 0,
+"Levitation": 0,
+"Strength": 100
+}
+
+[node name="Filler" type="Node2D" parent="Player"]
+
+[node name="Ender" type="Node2D" parent="Player"]
+
+[node name="Special" type="Node2D" parent="Player"]
+
+[node name="Ultra" type="Node2D" parent="Player"]
+
+[node name="Fiend" type="Node2D" parent="."]
+
+[node name="Starter" type="Node2D" parent="Fiend"]
+
+[node name="Filler" type="Node2D" parent="Fiend"]
+
+[node name="Ender" type="Node2D" parent="Fiend"]
+
+[node name="Special" type="Node2D" parent="Fiend"]
+
+[node name="Ultra" type="Node2D" parent="Fiend"]

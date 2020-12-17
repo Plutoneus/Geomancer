@@ -1,0 +1,52 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Scene/Actor/Attack/AttackSprite.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Script/Actor/Player/Attack/Attack.gd" type="Script" id=2]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 6.0
+
+[sub_resource type="Animation" id=2]
+resource_name = "AttackBasicUtilt"
+length = 0.4
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/path = NodePath("HitBox0:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.05, 0.0833333, 0.116667, 0.15, 0.183333, 0.233333, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ true, false, false, true, true, true, true, true ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "AttackFiendBat"
+length = 1.5
+step = 0.0166667
+
+[node name="AttackFiendBat" type="Area2D" groups=[
+"Attack",
+]]
+script = ExtResource( 2 )
+user = {
+"Enemy": false,
+"Fiend": true,
+"Player": false
+}
+
+[node name="HitBox0" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="Anim" type="AnimationPlayer" parent="."]
+autoplay = "AttackFiendBat"
+anims/AttackBasicUtilt = SubResource( 2 )
+anims/AttackFiendBat = SubResource( 3 )
+
+[node name="Sprite" parent="." instance=ExtResource( 1 )]
+visible = false
+animation = "PBasicUtilt"
+[connection signal="animation_finished" from="Anim" to="." method="_on_Anim_animation_finished"]
