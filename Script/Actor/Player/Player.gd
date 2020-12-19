@@ -261,7 +261,7 @@ func use_equipped_attack(var direction = ""):
 			$Sprite.play("AtkBasicPunch")
 			
 			cancelable = false
-			basic_atk_inst = G.attack_basic_punch.instance()
+			basic_atk_inst = G.attack_special_fireball.instance()
 			add_child(basic_atk_inst)
 			
 			# Levitation used in motion.y += section in _physics_process
