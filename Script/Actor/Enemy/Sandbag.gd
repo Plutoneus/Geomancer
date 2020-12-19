@@ -156,6 +156,7 @@ func _on_Collider_area_entered(area):
 	if area.is_in_group("Attack") and !stop:
 		# TODO delete all parameters other than area, since you can just reference its vars
 		hit(area, area.user, area.type, area.hitstop, area.hitstun, area.cancel, area.properties, area.force)
+		area.on_hit()
 
 
 func on_stop_timeout_complete():

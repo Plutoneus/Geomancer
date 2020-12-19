@@ -17,6 +17,12 @@ extends Area2D
 #	export (PackedScene) var animation # (Always playing (cc button or whatever))
 #
 #V	Attack's user (Player, Fiend)
+
+
+var moving = false
+var move_time = 0
+
+
 export var user = {
 	"Player" : false,
 	"Fiend" : false,
@@ -55,6 +61,8 @@ export var lag = 0.0
 
 export var cancel = 0.0 # Gotta find out how to do this in frames
 
+export var motion = Vector2(0, 0)
+
 #V What attacks and abilities/items can it cancel into?
 export var cancel_type = {
 	"Up" : false, # X/Square
@@ -74,6 +82,9 @@ export var properties = {
 	"Imbued Beast" : 0, # Amount of beast power in the attack
 	"Curse Seal" : 0, # Uhhhhhh Curse
 	"Facing" : false, # Motion to be determined by flip_h of sprite
+	"Detached" : false, # Projectile property
+	"Move_Wait_Time" : 0,
+	"Destroy_On_Hit" : false,
 }
 
 #N	Attack's Direction (with magnitude of property["Force"])
@@ -96,6 +107,14 @@ func _ready():
 	force *= properties["Force"]
 	# Convert to a frame value
 	hitstop /= 60
+	# Set move time
+	if properties["Detached"]:
+		move_time = properties["Move_Wait_Time"]
+	# Set facing vector
+	if properties["Facing"] and user["Player"]:
+		if G.player.get_node("Sprite").flip_h:
+			print("flipping")
+			motion *= -1
 
 
 func _process(delta):
@@ -107,13 +126,32 @@ func _process(delta):
 		$Anim.playback_speed = 0
 
 
+func _physics_process(delta):
+	if move_time <= 0:
+		moving = true
+	else:
+		moving = false
+		move_time -= 1
+	
+	if moving:
+		position += motion
+	elif properties["Detached"]:
+		position = G.player.global_position
+
+# Extend this to destroy on contact with tile + breakable stuff
+func on_hit():
+	if properties["Destroy_On_Hit"]:
+		kill()
+
+
 func _on_Anim_animation_finished(anim_name):
-	kill()
+	if !properties["Destroy_On_Hit"]:
+		kill()
 
 
 func kill():
 	queue_free()
-	if user["Player"] and !user["Fiend"] and !user["Enemy"]:
+	if user["Player"] and !user["Fiend"] and !user["Enemy"] and !properties["Detached"]:
 		G.player.cancelable = false
 		G.player.cancelable_time = 0
 		G.player.levitation = 1

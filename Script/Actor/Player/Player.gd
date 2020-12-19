@@ -92,9 +92,9 @@ func _physics_process(delta):
 					motion.x += x_input * ACCELERATION * delta
 					motion.x = clamp(motion.x, -max_speed, max_speed)
 					$Sprite.flip_h = x_input < 0
-				else:
-					motion.x += x_input * ACCELERATION/1.2 * delta
-					motion.x = clamp(motion.x, -max_speed/1.2, max_speed/1.2)
+#				else:
+#					motion.x += x_input * ACCELERATION/1.2 * delta
+#					motion.x = clamp(motion.x, -max_speed/1.2, max_speed/1.2)
 				
 			elif is_on_floor() and !in_lag:
 				$Sprite.play("Idle")
@@ -104,6 +104,9 @@ func _physics_process(delta):
 				motion.y += (GRAVITY/levitation) * delta
 			else:
 				motion.y += GRAVITY * delta
+			
+			if in_lag:
+				motion.x = lerp(motion.x, 0, AIR_RESISTENCE)
 			
 			if is_on_floor():
 				# No direction pressed on ground
@@ -130,15 +133,19 @@ func _physics_process(delta):
 			if (cancelable or (!in_lag and !stop)) and Input.is_action_just_pressed("ui_dash"):
 				if cancelable and stop:
 					dash_queued = true
-					basic_atk_inst.kill()
+					basic_atk_inst.kill() # Error on this when dash right after special charge time is up
 				else:
 					initiate_dash(x_input)
 			
 		DASH:
 			# Move
-			max_speed = MAX_DASH_SPEED
-			motion.x = clamp(motion.x, -max_speed, max_speed)
-			motion.y += (GRAVITY/1.2) * delta
+			if !in_lag:
+				max_speed = MAX_DASH_SPEED
+				motion.x = clamp(motion.x, -max_speed, max_speed)
+				motion.y += (GRAVITY/1.2) * delta
+			else:
+				motion.x = lerp(motion.x, 0, AIR_RESISTENCE)
+				motion.y += (GRAVITY/1.2) * delta
 			
 			# Jump is input
 			if Input.is_action_just_pressed("ui_jump") and is_on_floor():
@@ -258,21 +265,33 @@ func use_equipped_attack(var direction = ""):
 			# to escape the lag of a move and destroy the move early
 			
 		"special":
-			$Sprite.play("AtkBasicPunch")
+			$Sprite.play("AtkBasicPunch") # Inventory Attribute
 			
 			cancelable = false
-			basic_atk_inst = G.attack_special_fireball.instance()
-			add_child(basic_atk_inst)
+			basic_atk_inst = G.attack_special_fireball.instance() # Inventory Attribute
+			# Detached attacks are ones which the player can move after firing.
+			# The time before firing is the charge_time, which is based on the move's 
+			if basic_atk_inst.properties["Detached"]:
+				get_parent().add_child(basic_atk_inst)
+				basic_atk_inst.global_position = global_position
+				# Hopefully this property loads by this time
+				var atk_sprite = basic_atk_inst.get_node("Sprite")
+				atk_sprite.charge_time = basic_atk_inst.properties["Move_Wait_Time"]
+				atk_sprite.special = true
+				atk_sprite.charge_sprite = "AttackSpecialCharging" 
+				atk_sprite.fire_sprite = "AttackSpecialFireball"
+			else:
+				add_child(basic_atk_inst)
 			
 			# Levitation used in motion.y += section in _physics_process
-			if basic_atk_inst.properties["Levitation"] > 1:
-				levitation = basic_atk_inst.properties["Levitation"]
+			if basic_atk_inst.properties["Levitation"] > 1: # Inventory Attribute
+				levitation = basic_atk_inst.properties["Levitation"] # Inventory Attribute
 			
 			# in_lag is when the player cannot do anything, always longer than cancelable
 			in_lag = true
-			lag_time = basic_atk_inst.lag
+			lag_time = basic_atk_inst.lag # Inventory Attribute
 			
-			update_meter(super_meter_value - 25)
+			update_meter(super_meter_value - 25) # Inventory Attribute?
 			
 	# Flip whole node accordingly
 	if $Sprite.flip_h:

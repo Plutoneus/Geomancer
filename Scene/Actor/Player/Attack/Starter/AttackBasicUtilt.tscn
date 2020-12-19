@@ -112,10 +112,13 @@ cancel_type = {
 }
 properties = {
 "Curse Seal": 0,
+"Destroy_On_Hit": false,
+"Detached": false,
 "Facing": true,
 "Force": 1,
 "Imbued Beast": 0,
-"Levitation": 0,
+"Levitation": 1,
+"Move_Wait_Time": 0,
 "Strength": 50
 }
 force = Vector2( -90, -240 )
@@ -152,5 +155,5 @@ anims/AttackBasicUtilt = SubResource( 2 )
 [node name="Sprite" parent="." instance=ExtResource( 2 )]
 visible = false
 position = Vector2( 0, -16 )
-frame = 210
+frame = 20
 [connection signal="animation_finished" from="Anim" to="." method="_on_Anim_animation_finished"]
