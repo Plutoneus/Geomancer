@@ -58,7 +58,7 @@ func _physics_process(delta):
 		$Sprite.play("Not Hit")
 
 
-func hit(atk, user, type, hitstop, hitstun, cancel, properties, force):
+func hit(atk, user, type, hitstop, hitstun, properties, force):
 	# YOU CAN JUST PASS IN THE AREA, YOU KNOW?
 	
 	# Status effects, "properties"
@@ -102,8 +102,6 @@ func hit(atk, user, type, hitstop, hitstun, cancel, properties, force):
 		
 		P.stop = true
 		P.stored_motion = P.motion
-		P.cancelable = true
-		P.cancelable_time = cancel
 		P.stop_timer = G.timer_create(P, stop_timer, hitstop, "stop")
 		P.stop_timer.start()
 		numbers_inst.type["Normal"] = true
@@ -155,7 +153,7 @@ func _on_Collider_area_entered(area):
 	# Get attack data from attack and send it to _hit()
 	if area.is_in_group("Attack") and !stop:
 		# TODO delete all parameters other than area, since you can just reference its vars
-		hit(area, area.user, area.type, area.hitstop, area.hitstun, area.cancel, area.properties, area.force)
+		hit(area, area.user, area.type, area.hitstop, area.hitstun, area.properties, area.force)
 		area.on_hit()
 
 

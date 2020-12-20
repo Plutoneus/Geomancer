@@ -43,9 +43,6 @@ var lag_time = 0
 var stall_move = false
 var levitation = 1
 
-var cancelable = false
-var cancelable_time = 0
-
 var dash_length = 66000
 var dash_timer = null
 var dash_time = 0.45
@@ -130,11 +127,9 @@ func _physics_process(delta):
 				if x_input == 0:
 					motion.x = lerp(motion.x, 0, AIR_RESISTENCE)
 					
-			if (cancelable or (!in_lag and !stop)) and Input.is_action_just_pressed("ui_dash"):
-				if cancelable and stop:
+			if (!in_lag and !stop) and Input.is_action_just_pressed("ui_dash"):
+				if stop:
 					dash_queued = true
-					if !basic_atk_inst.properties["Detached"]:
-						basic_atk_inst.kill()
 				else:
 					initiate_dash(x_input)
 			
@@ -158,14 +153,6 @@ func _physics_process(delta):
 		motion = move_and_slide(motion, Vector2.UP)
 	else:
 		motion = move_and_slide(Vector2(0, 0), Vector2.UP)
-	
-	# Continuous frame timers
-	if cancelable_time <= 0:
-		cancelable = false
-		cancelable_time = 0
-	else:
-		cancelable = true
-		cancelable_time -= 1
 	
 	if lag_time <= 0:
 		in_lag = false
@@ -214,7 +201,6 @@ func use_equipped_attack(var direction = ""):
 		"up":
 			$Sprite.play("AtkBasicUtilt")
 			
-			cancelable = false
 			basic_atk_inst = G.attack_basic_utilt.instance()
 			add_child(basic_atk_inst)
 			
@@ -222,17 +208,13 @@ func use_equipped_attack(var direction = ""):
 			if basic_atk_inst.properties["Levitation"] > 1:
 				levitation = basic_atk_inst.properties["Levitation"]
 			
-			# in_lag is when the player cannot do anything, always longer than cancelable
+			# in_lag is when the player cannot do anything
 			in_lag = true
 			lag_time = basic_atk_inst.lag
-			
-			# cancelable is when the player can do something other than regular movement or the same move 
-			# to escape the lag of a move and destroy the move early
 		
 		"neutral":
 			$Sprite.play("AtkBasicSpin")
 			
-			cancelable = false
 			basic_atk_inst = G.attack_basic_spin.instance()
 			add_child(basic_atk_inst)
 			
@@ -240,17 +222,13 @@ func use_equipped_attack(var direction = ""):
 			if basic_atk_inst.properties["Levitation"] > 1:
 				levitation = basic_atk_inst.properties["Levitation"]
 			
-			# in_lag is when the player cannot do anything, always longer than cancelable
+			# in_lag is when the player cannot do anything
 			in_lag = true
 			lag_time = basic_atk_inst.lag
-			
-			# cancelable is when the player can do something other than regular movement or the same move 
-			# to escape the lag of a move and destroy the move early
 		
 		"forward":
 			$Sprite.play("AtkBasicPunch")
-			
-			cancelable = false
+
 			basic_atk_inst = G.attack_basic_punch.instance()
 			add_child(basic_atk_inst)
 			
@@ -258,17 +236,13 @@ func use_equipped_attack(var direction = ""):
 			if basic_atk_inst.properties["Levitation"] > 1:
 				levitation = basic_atk_inst.properties["Levitation"]
 			
-			# in_lag is when the player cannot do anything, always longer than cancelable
+			# in_lag is when the player cannot do anything
 			in_lag = true
 			lag_time = basic_atk_inst.lag
-			
-			# cancelable is when the player can do something other than regular movement or the same move 
-			# to escape the lag of a move and destroy the move early
 			
 		"special":
 			$Sprite.play("AtkBasicPunch") # Inventory Attribute
 			
-			cancelable = false
 			basic_atk_inst = G.attack_special_fireball.instance() # Inventory Attribute
 			# Detached attacks are ones which the player can move after firing.
 			# The time before firing is the charge_time, which is based on the move's 
@@ -288,7 +262,7 @@ func use_equipped_attack(var direction = ""):
 			if basic_atk_inst.properties["Levitation"] > 1: # Inventory Attribute
 				levitation = basic_atk_inst.properties["Levitation"] # Inventory Attribute
 			
-			# in_lag is when the player cannot do anything, always longer than cancelable
+			# in_lag is when the player cannot do anything
 			in_lag = true
 			lag_time = basic_atk_inst.lag # Inventory Attribute
 			
@@ -317,6 +291,11 @@ func initiate_dash(x_in):
 	# Timer to determine escape to MOVE
 	dash_timer = G.timer_create(self, dash_timer, dash_time, "dash")
 	dash_timer.start()
+	
+	# Kill attack if one exists
+#	if basic_atk_inst != null:
+#		if !basic_atk_inst.properties["Detached"]:
+#			basic_atk_inst.kill()
 	
 	# Determine speed/direction
 	motion.x = x_in * MAX_DASH_SPEED # No * delta, happens once
@@ -356,12 +335,12 @@ func on_ghost_timer_timeout_complete():
 
 func debug_controls():
 	# Debug Labels
-	debug_label_0.text = "cancelable: " + str(cancelable)
+	debug_label_0.text = "state: " + str(state)
 	debug_label_1.text = "in_lag: " + str(in_lag)
 	debug_label_2.text = "motion: " + str(motion)
 	debug_label_3.text = "point_direction: " + str(point_direction)
 	debug_label_4.text = "stop: " + str(stop)
-	debug_label_5.text = "cancelable_time: " + str(cancelable_time)
+	debug_label_5.text = "atk: " + str(basic_atk_inst)
 	debug_label_6.text = "lag_time: " + str(lag_time)
 	
 	if Input.is_action_just_pressed("ui_db_1"):

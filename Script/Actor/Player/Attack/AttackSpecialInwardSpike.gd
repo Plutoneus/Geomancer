@@ -29,7 +29,6 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 
 func kill():
 	queue_free()
-	G.player.cancelable = false
 	G.null_clear = true
 
 

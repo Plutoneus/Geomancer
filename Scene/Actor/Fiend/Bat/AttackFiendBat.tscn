@@ -58,10 +58,13 @@ hitstun = 50.0
 lag = 60.0
 properties = {
 "Curse Seal": 0,
+"Destroy_On_Hit": false,
+"Detached": false,
 "Facing": true,
 "Force": 1,
 "Imbued Beast": 0,
 "Levitation": 0,
+"Move_Wait_Time": 0,
 "Strength": 60
 }
 force = Vector2( 600, -125 )

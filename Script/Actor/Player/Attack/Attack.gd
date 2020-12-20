@@ -54,25 +54,11 @@ export var type = {
 export var hitstop = 0.0
 #N	Attack's Hitstun
 export var hitstun = 0.0
-#V	Attack's time the attack is cancelable for AFTER HIT
-#		V: As a specific effect on the player while cancelable
-#N	Attack's overall lag, regardless of cancel
+
+#N	Attack's overall time before user is actionable
 export var lag = 0.0
 
-export var cancel = 0.0 # Gotta find out how to do this in frames
-
 export var motion = Vector2(0, 0)
-
-#V What attacks and abilities/items can it cancel into?
-export var cancel_type = {
-	"Up" : false, # X/Square
-	"Forward" : false, # X/Square
-	"Down" : false, # X/Square
-	"Neutral" : false, # X/Square
-	"Special" : false, # B/Circle
-	"Super" : false, # L2 + R2
-	"Item" : false # L1
-}
 
 #V	Attack's Property (Can have a mix of them?? Effect magnitude/effect level):
 export var properties = {
@@ -153,6 +139,5 @@ func _on_Anim_animation_finished(anim_name):
 func kill():
 	queue_free()
 	if user["Player"] and !user["Fiend"] and !user["Enemy"] and !properties["Detached"]:
-		G.player.cancelable = false
-		G.player.cancelable_time = 0
 		G.player.levitation = 1
+		G.player.basic_atk_inst = null

@@ -133,17 +133,6 @@ type = {
 hitstop = 2.0
 hitstun = 20.0
 lag = 22.0
-cancel = 22.0
-motion = Vector2( 0, -60 )
-cancel_type = {
-"Down": true,
-"Forward": true,
-"Item": true,
-"Neutral": false,
-"Special": true,
-"Super": true,
-"Up": true
-}
 properties = {
 "Curse Seal": 0,
 "Destroy_On_Hit": false,
