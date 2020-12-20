@@ -81,7 +81,7 @@ export var properties = {
 	"Levitation" : 0, # Amount of levitation granted
 	"Imbued Beast" : 0, # Amount of beast power in the attack
 	"Curse Seal" : 0, # Uhhhhhh Curse
-	"Facing" : false, # Motion to be determined by flip_h of sprite
+	"Facing" : false, # Motion of enemy to be determined by flip_h of sprite
 	"Detached" : false, # Projectile property
 	"Move_Wait_Time" : 0,
 	"Destroy_On_Hit" : false,
@@ -107,6 +107,7 @@ func _ready():
 	force *= properties["Force"]
 	# Convert to a frame value
 	hitstop /= 60
+	print(properties)
 	# Set move time
 	if properties["Detached"]:
 		move_time = properties["Move_Wait_Time"]

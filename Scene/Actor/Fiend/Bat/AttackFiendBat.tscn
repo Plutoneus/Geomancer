@@ -76,5 +76,4 @@ anims/AttackFiendBat = SubResource( 3 )
 
 [node name="Sprite" parent="." instance=ExtResource( 1 )]
 visible = false
-frame = 0
 [connection signal="animation_finished" from="Anim" to="." method="_on_Anim_animation_finished"]

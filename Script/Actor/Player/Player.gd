@@ -133,7 +133,8 @@ func _physics_process(delta):
 			if (cancelable or (!in_lag and !stop)) and Input.is_action_just_pressed("ui_dash"):
 				if cancelable and stop:
 					dash_queued = true
-					basic_atk_inst.kill() # Error on this when dash right after special charge time is up
+					if !basic_atk_inst.properties["Detached"]:
+						basic_atk_inst.kill()
 				else:
 					initiate_dash(x_input)
 			
