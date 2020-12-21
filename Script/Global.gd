@@ -17,10 +17,6 @@ var attack_special_fireball = load("res://Scene/Actor/Player/Attack/Starter/Atta
 
 var attack_fiend_bat = load("res://Scene/Actor/Fiend/Bat/AttackFiendBat.tscn")
 
-# Deprecate this
-#var attack_basic_utilt = load("res://Scene/Actor/Player/Attack/AttackBasicUtilt.tscn")
-var attack_basic_multijab = load("res://Scene/Actor/Player/Attack/AttackBasicMultiJab.tscn")
-var attack_special_inward_spike = load("res://Scene/Actor/Player/Attack/AttackSpecialInwardSpike.tscn")
 var effect_sprite = load("res://Scene/Effect/EffectSprite.tscn")
 
 var shake_magnitude = 0
