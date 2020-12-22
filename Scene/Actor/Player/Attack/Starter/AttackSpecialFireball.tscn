@@ -17,7 +17,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.766667 ),
+"times": PoolRealArray( 0, 0.333333 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ true, false ]
@@ -62,7 +62,7 @@ properties = {
 "Force": 1,
 "Imbued Beast": 0,
 "Levitation": 1,
-"Move_Wait_Time": 45,
+"Move_Wait_Time": 20,
 "Strength": 140
 }
 force = Vector2( -90, -170 )

@@ -247,14 +247,14 @@ func use_equipped_attack(var direction = ""):
 			# Detached attacks are ones which the player can move after firing.
 			# The time before firing is the charge_time, which is based on the move's 
 			if basic_atk_inst.properties["Detached"]:
-				get_parent().add_child(basic_atk_inst)
-				basic_atk_inst.global_position = global_position
 				# Hopefully this property loads by this time
 				var atk_sprite = basic_atk_inst.get_node("Sprite")
 				atk_sprite.charge_time = basic_atk_inst.properties["Move_Wait_Time"]
 				atk_sprite.special = true
 				atk_sprite.charge_sprite = "AttackSpecialCharging" 
 				atk_sprite.fire_sprite = "AttackSpecialFireball"
+				get_parent().add_child(basic_atk_inst)
+				basic_atk_inst.global_position = global_position
 			else:
 				add_child(basic_atk_inst)
 			
