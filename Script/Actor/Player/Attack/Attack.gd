@@ -80,7 +80,7 @@ export var force = Vector2(0, 0)
 #	but you also need to instantiate them in the global script
 #	Note: How can you call nodes' signals without having them setup
 
-#	All this shit will be filled out, attached to a node in AttackData, and the
+#	All this will be filled out, attached to a node in AttackData, and the
 #	player will create each individual attack scene, modified by their own stats/buffs
 #	Enemy will react in their internal sandbag, taking data from the area (filled out
 #	in this inspector) to affect them differently
