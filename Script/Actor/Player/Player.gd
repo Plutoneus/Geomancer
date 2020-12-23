@@ -31,6 +31,7 @@ var my_fiend = null
 var super_meter_value = MAX_SUPER_METER_VALUE
 var motion = Vector2()
 var stored_motion = Vector2()
+var jumps = 1
 
 var stop_timer = null
 var stop = false
@@ -106,6 +107,7 @@ func _physics_process(delta):
 				motion.x = lerp(motion.x, 0, AIR_RESISTENCE)
 			
 			if is_on_floor():
+				jumps = 1
 				# No direction pressed on ground
 				if x_input == 0:
 					motion.x = lerp(motion.x, 0, FRICTION)
@@ -118,6 +120,17 @@ func _physics_process(delta):
 				# Variable height on jump release
 				if Input.is_action_just_released("ui_jump") and motion.y < -JUMP_FORCE/2:
 					motion.y = -JUMP_FORCE/2
+				
+				# Jump is input
+				if Input.is_action_just_pressed("ui_jump") and jumps > 0:
+					jumps -= 1
+					$Sprite.play("Jump")
+					motion.y = -JUMP_FORCE
+					# Jump ring effect
+					var effect_inst = G.effect_sprite.instance()
+					effect_inst.anim = "JumpRing"
+					get_parent().add_child(effect_inst)
+					effect_inst.global_position = global_position
 				
 				# Fall animation when falling
 				if motion.y > 0:

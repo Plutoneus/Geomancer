@@ -142,7 +142,7 @@ properties = {
 "Imbued Beast": 0,
 "Levitation": 3,
 "Move_Wait_Time": 0,
-"Strength": 15
+"Strength": 25
 }
 force = Vector2( 0, -60 )
 

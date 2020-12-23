@@ -100,16 +100,6 @@ type = {
 hitstop = 4.0
 hitstun = 60.0
 lag = 28.0
-cancel = 22.0
-cancel_type = {
-"Down": true,
-"Forward": true,
-"Item": true,
-"Neutral": true,
-"Special": true,
-"Super": true,
-"Up": false
-}
 properties = {
 "Curse Seal": 0,
 "Destroy_On_Hit": false,

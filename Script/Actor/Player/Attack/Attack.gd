@@ -67,6 +67,7 @@ export var properties = {
 	"Levitation" : 0, # Amount of levitation granted
 	"Imbued Beast" : 0, # Amount of beast power in the attack
 	"Curse Seal" : 0, # Uhhhhhh Curse
+	"Base_Meter_Gain" : 0, # Meter gain before combo squish
 	"Facing" : false, # Motion of enemy to be determined by flip_h of sprite
 	"Detached" : false, # Projectile property
 	"Move_Wait_Time" : 0,
