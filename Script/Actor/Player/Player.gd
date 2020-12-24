@@ -157,9 +157,19 @@ func _physics_process(delta):
 				motion.y += (GRAVITY/1.2) * delta
 			
 			# Jump is input
-			if Input.is_action_just_pressed("ui_jump") and is_on_floor():
+			if Input.is_action_just_pressed("ui_jump"):
 				$Sprite.play("Jump")
-				motion.y = -JUMP_FORCE
+				if is_on_floor():
+					motion.y = -JUMP_FORCE
+				elif (jumps > 0):
+					jumps -= 1
+					motion.y = -JUMP_FORCE
+					
+					# Jump ring effect
+					var effect_inst = G.effect_sprite.instance()
+					effect_inst.anim = "JumpRing"
+					get_parent().add_child(effect_inst)
+					effect_inst.global_position = global_position
 	
 	# Apply forces
 	if !stop:
