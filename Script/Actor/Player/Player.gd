@@ -220,6 +220,7 @@ func _process(delta):
 
 
 func use_equipped_attack(var direction = ""):
+	# Consolidate these
 	match direction:
 		"up":
 			$Sprite.play("AtkBasicUtilt")
