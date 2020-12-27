@@ -19,6 +19,8 @@ var stop_time = 0
 
 var has_cleared = false
 
+var combo_count = 0
+
 
 func _ready():
 	pass
@@ -67,6 +69,10 @@ func hit(atk):
 	
 	# Combo stuff
 	G.player.current_target = self
+	if stun_time > 0:
+		combo_count += 1
+	else:
+		combo_count = 1
 	
 	# Shake the screen
 	G.screen_shake(round(atk.properties["Strength"]/15))

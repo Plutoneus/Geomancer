@@ -351,6 +351,8 @@ func on_ghost_timer_timeout_complete():
 func debug_controls():
 	# Debug Labels
 	debug_label_0.text = "target: " + str(current_target)
+	if current_target != null:
+		debug_label_1.text = "count: " + str(current_target.combo_count)
 	
 	if Input.is_action_just_pressed("ui_db_1"):
 		tw_z = Tweening.tween_to($Camera, "zoom", Vector2(1, 1), .3)
