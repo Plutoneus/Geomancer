@@ -38,7 +38,6 @@ func _physics_process(delta):
 	if is_on_floor() and !stop:
 		motion.x = lerp(motion.x, 0, FRICTION)
 		if motion.y > 50 and stun_time > 0:
-			print("bounce")
 			motion.y *= -1
 	elif !stop:
 		motion.x = lerp(motion.x, 0, AIR_RESISTENCE)
@@ -65,6 +64,9 @@ func hit(atk):
 #	if body != null:
 #		if body.has[g.effect[32]]:
 		# This shit happens/changes parameters
+	
+	# Combo stuff
+	G.player.current_target = self
 	
 	# Shake the screen
 	G.screen_shake(round(atk.properties["Strength"]/15))

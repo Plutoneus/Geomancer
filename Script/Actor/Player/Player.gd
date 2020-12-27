@@ -48,7 +48,6 @@ var dash_length = 66000
 var dash_timer = null
 var dash_time = 0.45
 var point_direction = Vector2()
-var dash_queued = false
 var prev_x_input = 0
 
 # Trails
@@ -62,6 +61,8 @@ var ghost_color = ghost_colors["blue"]
 
 var current_max_speed = MAX_SPEED
 var current_accel = ACCELERATION
+
+var current_target = null
 
 # Camera
 var tw_z = Vector2(1, 1)
@@ -114,23 +115,11 @@ func _physics_process(delta):
 				
 				# Jump is input
 				if Input.is_action_just_pressed("ui_jump") and !in_lag:
-					$Sprite.play("Jump")
-					motion.y = -JUMP_FORCE
+					initiate_jump()
 			elif !in_lag:
-				# Variable height on jump release
-				if Input.is_action_just_released("ui_jump") and motion.y < -JUMP_FORCE/2:
-					motion.y = -JUMP_FORCE/2
-				
 				# Jump is input
 				if Input.is_action_just_pressed("ui_jump") and jumps > 0:
-					jumps -= 1
-					$Sprite.play("Jump")
-					motion.y = -JUMP_FORCE
-					# Jump ring effect
-					var effect_inst = G.effect_sprite.instance()
-					effect_inst.anim = "JumpRing"
-					get_parent().add_child(effect_inst)
-					effect_inst.global_position = global_position
+					initiate_jump()
 				
 				# Fall animation when falling
 				if motion.y > 0:
@@ -139,11 +128,15 @@ func _physics_process(delta):
 				# No direction pressed in air
 				if x_input == 0:
 					motion.x = lerp(motion.x, 0, AIR_RESISTENCE)
-					
-			if (!in_lag and !stop) and Input.is_action_just_pressed("ui_dash"):
-				if stop:
-					dash_queued = true
-				else:
+			
+			if !is_on_floor():
+				# Variable height on jump release
+				if Input.is_action_just_released("ui_jump") and motion.y < -JUMP_FORCE/2:
+					motion.y = -JUMP_FORCE/2
+			
+			if Input.is_action_just_pressed("ui_dash"):
+				if !in_lag:
+					# Not in an atk
 					initiate_dash(x_input)
 			
 		DASH:
@@ -158,18 +151,7 @@ func _physics_process(delta):
 			
 			# Jump is input
 			if Input.is_action_just_pressed("ui_jump"):
-				$Sprite.play("Jump")
-				if is_on_floor():
-					motion.y = -JUMP_FORCE
-				elif (jumps > 0):
-					jumps -= 1
-					motion.y = -JUMP_FORCE
-					
-					# Jump ring effect
-					var effect_inst = G.effect_sprite.instance()
-					effect_inst.anim = "JumpRing"
-					get_parent().add_child(effect_inst)
-					effect_inst.global_position = global_position
+				initiate_jump()
 	
 	# Apply forces
 	if !stop:
@@ -316,14 +298,24 @@ func initiate_dash(x_in):
 	dash_timer = G.timer_create(self, dash_timer, dash_time, "dash")
 	dash_timer.start()
 	
-	# Kill attack if one exists
-#	if basic_atk_inst != null:
-#		if !basic_atk_inst.properties["Detached"]:
-#			basic_atk_inst.kill()
-	
 	# Determine speed/direction
 	motion.x = x_in * MAX_DASH_SPEED # No * delta, happens once
 	ghost_color = ghost_colors["blue"]
+
+
+func initiate_jump():
+	$Sprite.play("Jump")
+	if is_on_floor():
+		motion.y = -JUMP_FORCE
+	elif (jumps > 0):
+		jumps -= 1
+		motion.y = -JUMP_FORCE
+		
+		# Jump ring effect
+		var effect_inst = G.effect_sprite.instance()
+		effect_inst.anim = "JumpRing"
+		get_parent().add_child(effect_inst)
+		effect_inst.global_position = global_position
 
 
 func update_meter(to):
@@ -334,7 +326,6 @@ func update_meter(to):
 
 # Timer timeouts
 func on_dash_timeout_complete():
-	dash_queued = false
 	state = MOVE
 
 
@@ -359,13 +350,7 @@ func on_ghost_timer_timeout_complete():
 
 func debug_controls():
 	# Debug Labels
-	debug_label_0.text = "state: " + str(state)
-	debug_label_1.text = "in_lag: " + str(in_lag)
-	debug_label_2.text = "motion: " + str(motion)
-	debug_label_3.text = "point_direction: " + str(point_direction)
-	debug_label_4.text = "stop: " + str(stop)
-	debug_label_5.text = "atk: " + str(basic_atk_inst)
-	debug_label_6.text = "lag_time: " + str(lag_time)
+	debug_label_0.text = "target: " + str(current_target)
 	
 	if Input.is_action_just_pressed("ui_db_1"):
 		tw_z = Tweening.tween_to($Camera, "zoom", Vector2(1, 1), .3)
