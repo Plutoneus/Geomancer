@@ -1,0 +1,77 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Sprite/HUD/Ingame/9Patch.png" type="Texture" id=1]
+[ext_resource path="res://Sprite/HUD/Ingame/EnemyFrameFilled0.png" type="Texture" id=2]
+[ext_resource path="res://Sprite/HUD/Ingame/EnemyFrameEmpty0.png" type="Texture" id=3]
+
+[node name="EnemyFrame" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Base" type="NinePatchRect" parent="."]
+margin_left = 240.0
+margin_top = 184.0
+margin_right = 376.0
+margin_bottom = 208.0
+texture = ExtResource( 1 )
+region_rect = Rect2( 0, 0, 16, 16 )
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PortraitFrame" type="NinePatchRect" parent="Base"]
+margin_right = 24.0
+margin_bottom = 24.0
+texture = ExtResource( 1 )
+region_rect = Rect2( 0, 0, 16, 16 )
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="HPFrame" type="NinePatchRect" parent="Base"]
+margin_left = 24.0
+margin_right = 136.0
+margin_bottom = 24.0
+texture = ExtResource( 1 )
+region_rect = Rect2( 0, 0, 16, 16 )
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Portrait" type="TextureRect" parent="Base"]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 20.0
+margin_bottom = 20.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HealthBar" type="TextureProgress" parent="Base"]
+margin_left = 28.0
+margin_top = 4.0
+margin_right = 132.0
+margin_bottom = 20.0
+rounded = true
+texture_over = ExtResource( 3 )
+texture_progress = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}

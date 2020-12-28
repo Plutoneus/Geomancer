@@ -5,7 +5,8 @@ const FRICTION = 0.25
 const AIR_RESISTENCE = 0.08
 
 var my_body = null
-var blood = 99999999
+var max_health = 999.0
+var health = max_health
 var stun_time = 0
 var current_delta = 0
 
@@ -20,6 +21,8 @@ var stop_time = 0
 var has_cleared = false
 
 var combo_count = 0
+
+var portrait = load("res://Sprite/Enemy/Sandbag/SandBagPortrait0.png")
 
 
 func _ready():
@@ -93,7 +96,7 @@ func hit(atk):
 	atk.force.y += rand_range(-15, 15)
 	
 	# Body is an enemy's health
-	blood -= atk.properties["Strength"]
+	health -= atk.properties["Strength"]
 	# Stun is a parameter that is always decremented when < 0
 	stun_time = atk.hitstun
 	
@@ -156,6 +159,9 @@ func hit(atk):
 	stop_timer = G.timer_create(self, stop_timer, atk.hitstop, "stop")
 	stop_timer.start()
 	motion = Vector2(0, 0)
+	
+	if health <= 0:
+		die()
 
 
 func _on_Collider_area_entered(area):
@@ -164,6 +170,10 @@ func _on_Collider_area_entered(area):
 		# TODO delete all parameters other than area, since you can just reference its vars
 		hit(area)
 		area.on_hit()
+
+
+func die():
+	queue_free()
 
 
 func on_stop_timeout_complete():

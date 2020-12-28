@@ -14,6 +14,8 @@ onready var debug_label_4 = $UI/HUD/VBoxContainer/DebugLabel4
 onready var debug_label_5 = $UI/HUD/VBoxContainer/DebugLabel5
 onready var debug_label_6 = $UI/HUD/VBoxContainer/DebugLabel6
 
+onready var enemy_frame = $UI/HUD/EnemyFrame
+
 const ACCELERATION = 1200
 const MAX_SPEED = 80
 const MAX_DASH_SPEED = 190
@@ -27,6 +29,7 @@ const MAX_SUPER_METER_VALUE = 100
 var max_speed = MAX_SPEED
 
 var state = 0
+var health = 500
 var my_fiend = null
 var super_meter_value = MAX_SUPER_METER_VALUE
 var motion = Vector2()
@@ -171,6 +174,10 @@ func _process(delta):
 	# Debug-only functions
 	debug_controls()
 	$UI/HUD/SuperMeter.value = super_meter_value
+	if current_target != null:
+		enemy_frame.get_node("Base/Portrait").texture = current_target.portrait
+		var e_hp_val = (current_target.health / current_target.max_health) * 100.0
+		enemy_frame.get_node("Base/HealthBar").value = e_hp_val
 	
 	# Set the process by which the camera will shake 
 	camera_shake_process(0.8)
