@@ -12,10 +12,10 @@ __meta__ = {
 }
 
 [node name="Base" type="NinePatchRect" parent="."]
-margin_left = 240.0
-margin_top = 184.0
-margin_right = 376.0
-margin_bottom = 208.0
+margin_left = 248.0
+margin_top = 192.0
+margin_right = 384.0
+margin_bottom = 216.0
 texture = ExtResource( 1 )
 region_rect = Rect2( 0, 0, 16, 16 )
 patch_margin_left = 5

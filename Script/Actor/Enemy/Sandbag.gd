@@ -30,6 +30,7 @@ func _ready():
 
 
 func _physics_process(delta):
+	$HPContainer/HealthBar.value = (health / max_health) * 100.0
 	current_delta = delta
 	if get_parent().is_in_group("EnemyBasic"): # or other enemy groups
 		# EITHER YOUR BODY IS THE SANDBAG ITSELF OR THE BODY IS YOUR PARENT
@@ -58,6 +59,9 @@ func _physics_process(delta):
 		$Sprite.play("Hit")
 		stun_time -= 1
 	else:
+		var hp_bg = $HPContainer/HealthBarBG
+		var hp_fg = $HPContainer/HealthBar
+		hp_bg.value = lerp(hp_bg.value, hp_fg.value - 2, 0.2)
 		stun_time = 0
 		$Sprite.play("Not Hit")
 
