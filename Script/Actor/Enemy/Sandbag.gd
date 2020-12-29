@@ -144,9 +144,9 @@ func hit(atk):
 		S.get_node("HitStrong").pitch_scale = rand_range(0.95, 1.05)
 		S.get_node("HitStrong").play()
 		
-		var tw_z = Tweening.tween_to(G.player.get_node("Camera"), "zoom", Vector2(.9, .9), .1)
-		tw_z.easing = Tween.EASE_IN_OUT
-		tw_z.trans = Tween.TRANS_SINE
+#		var tw_z = Tweening.tween_to(G.player.get_node("Camera"), "zoom", Vector2(.9, .9), .1)
+#		tw_z.easing = Tween.EASE_IN_OUT
+#		tw_z.trans = Tween.TRANS_SINE
 		
 	elif atk.type["Filler"] or atk.type["Starter"]:
 		S.get_node("HitBasic").pitch_scale = rand_range(0.95, 1.05)

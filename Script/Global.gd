@@ -12,6 +12,7 @@ var hit_mult = 0
 var attack_basic_utilt = load("res://Scene/Actor/Player/Attack/Starter/AttackBasicUtilt.tscn")
 var attack_basic_spin = load("res://Scene/Actor/Player/Attack/Starter/AttackBasicSpin.tscn")
 var attack_basic_punch = load("res://Scene/Actor/Player/Attack/Starter/AttackBasicPunch.tscn")
+var attack_basic_grounded = load("res://Scene/Actor/Player/Attack/Starter/AttackBasicGrounded.tscn")
 var attack_special_fireball = load("res://Scene/Actor/Player/Attack/Starter/AttackSpecialFireball.tscn")
 
 

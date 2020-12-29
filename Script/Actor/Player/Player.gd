@@ -191,14 +191,23 @@ func _process(delta):
 		if Input.is_action_pressed("ui_right") or Input.is_action_pressed("ui_left"):
 			use_equipped_attack("forward")
 	
-	if Input.is_action_just_pressed("ui_attack") and (!in_lag):
+	if Input.is_action_just_pressed("ui_attack") and (!in_lag) and !is_on_floor():
 		if (
 			!Input.is_action_pressed("ui_up") and 
 			!Input.is_action_pressed("ui_down") and 
 			!Input.is_action_pressed("ui_right") and 
 			!Input.is_action_pressed("ui_left")
 		):
-			use_equipped_attack("neutral")
+			use_equipped_attack("neutral_aerial")
+	
+	if Input.is_action_just_pressed("ui_attack") and (!in_lag) and is_on_floor():
+		if (
+			!Input.is_action_pressed("ui_up") and 
+			!Input.is_action_pressed("ui_down") and 
+			!Input.is_action_pressed("ui_right") and 
+			!Input.is_action_pressed("ui_left")
+		):
+			use_equipped_attack("neutral_grounded")
 	
 	if Input.is_action_just_pressed("ui_special") and (!in_lag):
 			use_equipped_attack("special")
@@ -225,10 +234,26 @@ func use_equipped_attack(var direction = ""):
 			in_lag = true
 			lag_time = basic_atk_inst.lag
 		
-		"neutral":
+		"neutral_aerial":
+			print("neutral_aerial")
 			$Sprite.play("AtkBasicSpin")
 			
 			basic_atk_inst = G.attack_basic_spin.instance()
+			add_child(basic_atk_inst)
+			
+			# Levitation used in motion.y += section in _physics_process
+			if basic_atk_inst.properties["Levitation"] > 1:
+				levitation = basic_atk_inst.properties["Levitation"]
+			
+			# in_lag is when the player cannot do anything
+			in_lag = true
+			lag_time = basic_atk_inst.lag
+		
+		"neutral_grounded":
+			print("neutral_grounded")
+			$Sprite.play("AtkGround")
+			
+			basic_atk_inst = G.attack_basic_grounded.instance()
 			add_child(basic_atk_inst)
 			
 			# Levitation used in motion.y += section in _physics_process
@@ -254,32 +279,33 @@ func use_equipped_attack(var direction = ""):
 			lag_time = basic_atk_inst.lag
 			
 		"special":
-			$Sprite.play("AtkBasicPunch") # Inventory Attribute
-			
-			basic_atk_inst = G.attack_special_fireball.instance() # Inventory Attribute
-			# Detached attacks are ones which the player can move after firing.
-			# The time before firing is the charge_time, which is based on the move's 
-			if basic_atk_inst.properties["Detached"]:
-				# Hopefully this property loads by this time
-				var atk_sprite = basic_atk_inst.get_node("Sprite")
-				atk_sprite.charge_time = basic_atk_inst.properties["Move_Wait_Time"]
-				atk_sprite.special = true
-				atk_sprite.charge_sprite = "AttackSpecialCharging" 
-				atk_sprite.fire_sprite = "AttackSpecialFireball"
-				get_parent().add_child(basic_atk_inst)
-				basic_atk_inst.global_position = global_position
-			else:
-				add_child(basic_atk_inst)
-			
-			# Levitation used in motion.y += section in _physics_process
-			if basic_atk_inst.properties["Levitation"] > 1: # Inventory Attribute
-				levitation = basic_atk_inst.properties["Levitation"] # Inventory Attribute
-			
-			# in_lag is when the player cannot do anything
-			in_lag = true
-			lag_time = basic_atk_inst.lag # Inventory Attribute
-			
-			update_meter(super_meter_value - 25) # Inventory Attribute?
+			if super_meter_value >= 25:
+				$Sprite.play("AtkBasicPunch") # Inventory Attribute
+				
+				basic_atk_inst = G.attack_special_fireball.instance() # Inventory Attribute
+				# Detached attacks are ones which the player can move after firing.
+				# The time before firing is the charge_time, which is based on the move's 
+				if basic_atk_inst.properties["Detached"]:
+					# Hopefully this property loads by this time
+					var atk_sprite = basic_atk_inst.get_node("Sprite")
+					atk_sprite.charge_time = basic_atk_inst.properties["Move_Wait_Time"]
+					atk_sprite.special = true
+					atk_sprite.charge_sprite = "AttackSpecialCharging" 
+					atk_sprite.fire_sprite = "AttackSpecialFireball"
+					get_parent().add_child(basic_atk_inst)
+					basic_atk_inst.global_position = global_position
+				else:
+					add_child(basic_atk_inst)
+				
+				# Levitation used in motion.y += section in _physics_process
+				if basic_atk_inst.properties["Levitation"] > 1: # Inventory Attribute
+					levitation = basic_atk_inst.properties["Levitation"] # Inventory Attribute
+				
+				# in_lag is when the player cannot do anything
+				in_lag = true
+				lag_time = basic_atk_inst.lag # Inventory Attribute
+				
+				update_meter(super_meter_value - 25) # Inventory Attribute?
 			
 	# Flip whole node accordingly
 	if $Sprite.flip_h:
@@ -311,10 +337,11 @@ func initiate_dash(x_in):
 
 
 func initiate_jump():
-	$Sprite.play("Jump")
 	if is_on_floor():
+		$Sprite.play("Jump")
 		motion.y = -JUMP_FORCE
 	elif (jumps > 0):
+		$Sprite.play("Jump")
 		jumps -= 1
 		motion.y = -JUMP_FORCE
 		
