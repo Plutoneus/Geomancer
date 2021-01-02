@@ -1,6 +1,7 @@
 extends KinematicBody2D
 # https://coggle.it/diagram/X-y5gPYZr6FG98EF/t/-
 # https://coggle.it/diagram/X-y5gPYZr6FG98EF/t/-
+# HNY
 enum {
 	MOVE, 
 	BASIC_ATK,
