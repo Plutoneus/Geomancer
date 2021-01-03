@@ -22,6 +22,17 @@ extends Area2D
 var moving = false
 var move_time = 0
 
+# Will be modified by items
+var crit_chance = 10.0
+
+var ailments = {
+	"Fire" : 0.0,
+	"Frost" : 0.0,
+	"Electric" : 0.0,
+	"Geo" : 0.0,
+	"Magic" : 0.0,
+}
+
 
 export var user = {
 	"Player" : false,
